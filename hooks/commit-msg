@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Reading the line
+input=$1
+
+# Save text commit in a variable
+msg=`head -n1 $input`
+
+# Create regular expression for ticket number
+pattern_format="^(TKT-[[:digit:]]+)+([[:space:]]|$)"
+
+# Create regular expression for words
+pattern_word="^(feat|minor|major|add|chore)+([[:space:]]|$)"
+
+#Check the message against ours pattern
+if ! [[ "$msg" =~ $pattern_format || "$msg" =~ $pattern_word ]]; then
+
+    echo "ATTENTION! Wrong commit message"
+    echo "The message commit format should be: TKT-<number>"
+    echo "Or it should begin with the words: 'fear', 'major', 'minor', 'add', 'chore'"
+
+    exit 1
+fi
